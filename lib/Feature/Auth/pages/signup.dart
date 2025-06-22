@@ -75,209 +75,348 @@ class _SignUpScreenState extends State<SignUpScreen> {
     super.dispose();
   }
 
-  // Function to build a labeled text field
-  Widget _buildTextField({
-    required String labelText,
-    required String hintText,
-    required TextEditingController controller,
-    TextInputType keyboardType = TextInputType.text,
-    bool obscureText = false,
-    Widget? suffixIcon,
-    double bottomPadding = 20.0, // Added a parameter for bottom padding
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(bottom: 8.0),
-          child: Text(
-            labelText,
-            style: const TextStyle(
-              fontSize: 16.0,
-              fontWeight: FontWeight.bold,
-              color: Colors.black87,
-            ),
-          ),
-        ),
-        TextFormField(
-          controller: controller,
-          keyboardType: keyboardType,
-          obscureText: obscureText,
-          decoration: InputDecoration(
-            hintText: hintText,
-            suffixIcon: suffixIcon,
-          ),
-        ),
-        SizedBox(height: bottomPadding), // Use the parameter for spacing
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Sign Up', style: TextStyle(color: Colors.white)),
-        backgroundColor: Colors.deepPurple,
-        elevation: 0,
-        centerTitle: true,
-      ),
+      backgroundColor: Colors.white,
+      appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24.0),
+        padding: const EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            _buildTextField(
-              labelText: 'Name',
-              hintText: 'Enter name',
-              controller: _nameController,
-            ),
-            _buildTextField(
-              labelText: 'Email',
-              hintText: 'Enter email',
-              controller: _emailController,
-              keyboardType: TextInputType.emailAddress,
-            ),
-            _buildTextField(
-              labelText: 'Password',
-              hintText: 'Enter password',
-              controller: _passwordController,
-              obscureText: !_isPasswordVisible,
-              suffixIcon: IconButton(
-                icon: Icon(
-                  _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-                  color: Colors.grey,
+            const SizedBox(height: 40.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  'Sign up',
+                  style: TextStyle(
+                    fontSize: 32.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey[800],
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                onPressed: () {
-                  setState(() {
-                    _isPasswordVisible = !_isPasswordVisible;
-                  });
-                },
+                const SizedBox(width: 8.0),
+              ],
+            ),
+            const SizedBox(height: 60.0),
+            // Name Input
+            Text(
+              'Name',
+              style: TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.w600,
+                color: Colors.grey[700],
               ),
             ),
-            // Group Weight, Height, and Age horizontally
+            const SizedBox(height: 8.0),
+            TextField(
+              controller: _nameController,
+              decoration: InputDecoration(
+                hintText: 'Enter name',
+                hintStyle: TextStyle(color: Colors.grey[400]),
+                filled: true,
+                fillColor: Colors.grey[100],
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.0),
+                  borderSide: BorderSide.none,
+                ),
+                contentPadding: const EdgeInsets.symmetric(
+                  vertical: 16.0,
+                  horizontal: 20.0,
+                ),
+              ),
+            ),
+            const SizedBox(height: 24.0),
+            // Email Input
+            Text(
+              'Email',
+              style: TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.w600,
+                color: Colors.grey[700],
+              ),
+            ),
+            const SizedBox(height: 8.0),
+            TextField(
+              controller: _emailController,
+              decoration: InputDecoration(
+                hintText: 'Enter email',
+                hintStyle: TextStyle(color: Colors.grey[400]),
+                filled: true,
+                fillColor: Colors.grey[100],
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.0),
+                  borderSide: BorderSide.none,
+                ),
+                contentPadding: const EdgeInsets.symmetric(
+                  vertical: 16.0,
+                  horizontal: 20.0,
+                ),
+              ),
+              keyboardType: TextInputType.emailAddress,
+            ),
+            const SizedBox(height: 24.0),
+            // Password Input
+            Text(
+              'Password',
+              style: TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.w600,
+                color: Colors.grey[700],
+              ),
+            ),
+            const SizedBox(height: 8.0),
+            TextField(
+              controller: _passwordController,
+              obscureText: !_isPasswordVisible,
+              decoration: InputDecoration(
+                hintText: 'Enter password',
+                hintStyle: TextStyle(color: Colors.grey[400]),
+                filled: true,
+                fillColor: Colors.grey[100],
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.0),
+                  borderSide: BorderSide.none,
+                ),
+                contentPadding: const EdgeInsets.symmetric(
+                  vertical: 16.0,
+                  horizontal: 20.0,
+                ),
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _isPasswordVisible
+                        ? Icons.visibility
+                        : Icons.visibility_off,
+                    color: Colors.grey,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _isPasswordVisible = !_isPasswordVisible;
+                    });
+                  },
+                ),
+              ),
+            ),
+            const SizedBox(height: 24.0),
+            // Weight, Height, Age Inputs in a Row
             Row(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start, // Align labels at the top
               children: [
                 Expanded(
-                  child: _buildTextField(
-                    labelText: 'Weight (Kg)',
-                    hintText: 'Enter weight',
-                    controller: _weightController,
-                    keyboardType: TextInputType.number,
-                    bottomPadding: 0.0, // No bottom padding for fields in a row
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Weight (Kg)',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.grey[700],
+                        ),
+                      ),
+                      const SizedBox(height: 8.0),
+                      TextField(
+                        controller: _weightController,
+                        decoration: InputDecoration(
+                          hintText: 'Enter weight',
+                          hintStyle: TextStyle(color: Colors.grey[400]),
+                          filled: true,
+                          fillColor: Colors.grey[100],
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                            borderSide: BorderSide.none,
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: 16.0,
+                            horizontal: 20.0,
+                          ),
+                        ),
+                        keyboardType: TextInputType.number,
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(width: 16.0), // Horizontal spacing
+                const SizedBox(width: 16.0),
                 Expanded(
-                  child: _buildTextField(
-                    labelText: 'Height (cm)',
-                    hintText: 'Enter height',
-                    controller: _heightController,
-                    keyboardType: TextInputType.number,
-                    bottomPadding: 0.0,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Height (cm)',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.grey[700],
+                        ),
+                      ),
+                      const SizedBox(height: 8.0),
+                      TextField(
+                        controller: _heightController,
+                        decoration: InputDecoration(
+                          hintText: 'Enter height',
+                          hintStyle: TextStyle(color: Colors.grey[400]),
+                          filled: true,
+                          fillColor: Colors.grey[100],
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                            borderSide: BorderSide.none,
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: 16.0,
+                            horizontal: 20.0,
+                          ),
+                        ),
+                        keyboardType: TextInputType.number,
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(width: 16.0), // Horizontal spacing
+                const SizedBox(width: 16.0),
                 Expanded(
-                  child: _buildTextField(
-                    labelText: 'Age',
-                    hintText: 'Enter age',
-                    controller: _ageController,
-                    keyboardType: TextInputType.number,
-                    bottomPadding: 0.0,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Age',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.grey[700],
+                        ),
+                      ),
+                      const SizedBox(height: 8.0),
+                      TextField(
+                        controller: _ageController,
+                        decoration: InputDecoration(
+                          hintText: 'Enter age',
+                          hintStyle: TextStyle(color: Colors.grey[400]),
+                          filled: true,
+                          fillColor: Colors.grey[100],
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                            borderSide: BorderSide.none,
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: 16.0,
+                            horizontal: 20.0,
+                          ),
+                        ),
+                        keyboardType: TextInputType.number,
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 30.0), // Spacing after the horizontal row
-
+            const SizedBox(height: 40.0),
+            // Sign Up Button
             ElevatedButton(
               onPressed: () {
                 // TODO: Implement sign up logic here
                 print('Sign Up button pressed!');
-                print('Name: ${_nameController.text}');
-                print('Email: ${_emailController.text}');
-                print('Password: ${_passwordController.text}');
-                print('Weight: ${_weightController.text}');
-                print('Height: ${_heightController.text}');
-                print('Age: ${_ageController.text}');
+                print('Name: \\${_nameController.text}');
+                print('Email: \\${_emailController.text}');
+                print('Password: \\${_passwordController.text}');
+                print('Weight: \\${_weightController.text}');
+                print('Height: \\${_heightController.text}');
+                print('Age: \\${_ageController.text}');
               },
-              child: const Text('Sign up'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF6C63FF),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                elevation: 0,
+              ),
+              child: const Text(
+                'Sign Up',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
             ),
-            const SizedBox(height: 20.0),
+            const SizedBox(height: 30.0),
             Center(
               child: Text(
-                'OR SIGN UP WITH',
+                'OR',
                 style: TextStyle(
-                  color: Colors.grey[600],
-                  fontWeight: FontWeight.bold,
+                  fontSize: 14.0,
+                  color: Colors.grey[500],
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),
             const SizedBox(height: 20.0),
-            Center(
-              child: GestureDetector(
-                onTap: () {
-                  // TODO: Implement Google sign up logic
-                  print('Google Sign Up button pressed!');
-                },
-                child: Container(
-                  width: 50.0,
-                  height: 50.0,
-                  decoration: BoxDecoration(
-                    color: Colors.red, // Google's primary color
-                    borderRadius: BorderRadius.circular(
-                      25.0,
-                    ), // Circular button
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        spreadRadius: 1,
-                        blurRadius: 3,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: const Center(
-                    child: Text(
-                      'G',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24.0,
-                        fontWeight: FontWeight.bold,
-                      ),
+            OutlinedButton(
+              onPressed: () {
+                // TODO: Implement Google sign up logic
+                print('Google Sign Up button pressed!');
+              },
+              style: OutlinedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                side: BorderSide(color: Colors.grey[300]!, width: 1.0),
+                padding: const EdgeInsets.symmetric(vertical: 12.0),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    width: 24,
+                    height: 24,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    child: Image.asset(
+                      'lib/assets/google_icon.png',
+                      width: 20,
+                      height: 20,
+                      fit: BoxFit.cover,
                     ),
                   ),
-                ),
+                  Text(
+                    ' Sign up with Google',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: const Color.fromARGB(255, 142, 142, 142),
+                    ),
+                  ),
+                  const SizedBox(width: 10.0),
+                ],
               ),
             ),
-            const SizedBox(height: 40.0),
+            const SizedBox(height: 60.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
+              children: <Widget>[
+                Text(
                   'Already have an account? ',
-                  style: TextStyle(fontSize: 16.0),
+                  style: TextStyle(fontSize: 16.0, color: Colors.grey[700]),
                 ),
-                GestureDetector(
+                InkWell(
                   onTap: () {
-                    // TODO: Navigate to sign-in screen
-                    print('Sign in link pressed!');
+                    Navigator.pop(context);
                   },
                   child: const Text(
                     'Sign in',
                     style: TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,
-                      color: Colors.deepPurple, // Highlight "Sign in" text
+                      color: Color(0xFF6C63FF),
                     ),
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 20.0), // Bottom padding
+            const SizedBox(height: 20.0),
           ],
         ),
       ),

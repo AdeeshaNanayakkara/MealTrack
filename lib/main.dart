@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Food Habit App',
+      title: 'EAT',
       theme: ThemeData(
         primarySwatch: Colors.blue, // A default primary color for MaterialApp
         visualDensity: VisualDensity.adaptivePlatformDensity,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:eatro/Feature/Auth/pages/signup.dart'; // Import the file where SignUpScreen is defined
 
 void main() {
   runApp(const MyApp());
@@ -10,14 +11,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Login UI',
+      title: 'Login',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        fontFamily:
-            'Inter', // Assuming Inter font, you might need to import it in pubspec.yaml
+        fontFamily: 'Inter',
       ),
       home: const LoginPage(),
+      routes: {
+        '/signup': (context) =>
+            const SignUpScreen(), // Register the signup route
+      },
     );
   }
 }
@@ -51,18 +55,15 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  'Welcome back',
+                  'Welcome!',
                   style: TextStyle(
                     fontSize: 32.0,
                     fontWeight: FontWeight.bold,
                     color: Colors.grey[800],
                   ),
+                  textAlign: TextAlign.center,
                 ),
                 const SizedBox(width: 8.0),
-                const Text(
-                  '👋', // Waving hand emoji
-                  style: TextStyle(fontSize: 32.0),
-                ),
               ],
             ),
             const SizedBox(
@@ -166,7 +167,7 @@ class _LoginPageState extends State<LoginPage> {
             // OR LOG IN WITH
             Center(
               child: Text(
-                'OR LOG IN WITH',
+                'OR',
                 style: TextStyle(
                   fontSize: 14.0,
                   color: Colors.grey[500],
@@ -202,13 +203,18 @@ class _LoginPageState extends State<LoginPage> {
                         5.0,
                       ), // Slightly rounded corners for the 'G' container
                     ),
-                    child: const Text(
-                      'G',
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.red, // Google's 'G' color
-                      ),
+                    child: Image.asset(
+                      'lib/assets/google_icon.png', // Replace with your Google icon asset
+                      width: 20,
+                      height: 20,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  Text(
+                    ' Sign in with Google',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: const Color.fromARGB(255, 142, 142, 142),
                     ),
                   ),
                   const SizedBox(width: 10.0),
@@ -226,17 +232,19 @@ class _LoginPageState extends State<LoginPage> {
                   'Don\'t have an account? ',
                   style: TextStyle(fontSize: 16.0, color: Colors.grey[700]),
                 ),
-                GestureDetector(
+                InkWell(
                   onTap: () {
-                    // Handle sign up navigation
-                    debugPrint('Sign Up text pressed');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const SignUpScreen()),
+                    );
                   },
                   child: const Text(
                     'Sign up',
                     style: TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFF6C63FF), // Purple color
+                      color: Color(0xFF6C63FF),
                     ),
                   ),
                 ),
@@ -249,3 +257,5 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
+
+// Removed the local SignupPage class since it is now in signup.dart
