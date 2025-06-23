@@ -77,8 +77,6 @@ class AuthService {
         await _firestore.collection('users').doc(user.uid).set({
           'name': user.displayName,
           'email': user.email,
-          'photoURL': user.photoURL,
-          // These details are not provided by Google, so they are set to default values.
           'weight_kg': 0.0,
           'height_cm': 0.0,
           'age': 0,
@@ -97,14 +95,14 @@ class AuthService {
   }
 
   Future<DocumentSnapshot?> getUserDetails() async {
-    final FirebaseAuth _auth = FirebaseAuth.instance;
-    final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-    final user = _auth.currentUser;
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+    final user = auth.currentUser;
     if (user == null) return null; // Return null if no user is logged in
 
     try {
       // Fetch the document from the 'users' collection with the user's UID
-      return await _firestore.collection('users').doc(user.uid).get();
+      return await firestore.collection('users').doc(user.uid).get();
     } catch (e) {
       print("Error fetching user details: $e");
       return null;
@@ -122,6 +120,31 @@ class AuthService {
     } on FirebaseAuthException catch (e) {
       print("Error signing in: $e");
       return null;
+    }
+  }
+
+  Future<void> saveUserGoals({
+    required double calorieGoal,
+    required double carbsGoal,
+    required double proteinGoal,
+    required double fatsGoal,
+  }) async {
+    final user = _auth.currentUser;
+    if (user == null) return; // Can't save goals if no user is logged in
+
+    try {
+      await _firestore.collection('users').doc(user.uid).update({
+        'goals': {
+          'calories': calorieGoal,
+          'carbs': carbsGoal,
+          'protein': proteinGoal,
+          'fats': fatsGoal,
+        },
+      });
+    } catch (e) {
+      print("Error saving user goals: $e");
+      // Optionally, re-throw the exception to handle it in the UI
+      rethrow;
     }
   }
 }
